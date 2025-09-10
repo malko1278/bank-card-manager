@@ -1,0 +1,49 @@
+# ===============================
+# SERVER CONFIGURATION
+# ===============================
+server:
+  port: 8080
+
+# ===============================
+# DATABASE CONFIGURATION
+# ===============================
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5434/bank_cards
+    username: franck
+    password: Franck@1204
+    driver-class-name: org.postgresql.Driver
+
+  # ===============================
+  # JPA / HIBERNATE
+  # ===============================
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  # ===============================
+  # LIQUIBASE (MIGRATIONS)
+  # ===============================
+  liquibase:
+    enabled: true
+    change-log: classpath:db/migration/master.xml
+
+# ===============================
+# APP CONFIGURATION
+# ===============================
+app:
+  encryption:
+    key: jcTMMkPiENzaEx0ldPZdoRX8/wDsYhZkAp23FDn+rg01W+eKpnhedXvH8ImsaPZ02YHDMz65GmG4vY4nyNuFaw==
+
+# ===============================
+# JWT CONFIGURATION
+# ===============================
+jwt:
+  secret: jcTMMkPiENzaEx0ldPZdoRX8/wDsYhZkAp23FDn+rg01W+eKpnhedXvH8ImsaPZ02YHDMz65GmG4vY4nyNuFaw==
+  #       Q6jZI1+PF55+2v5HL5i/s/QtX6XVlYazdeJ8v+S1msL+s4mdIzo2EHRmuWjS7DvBOh1CpsPS0AWCiVhmdeWRxg==
+  expiration: 86400000

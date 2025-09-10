@@ -1,7 +1,4 @@
 
-/**
- * 
- */
 package com.effective.mobile.bank_card_manager.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;

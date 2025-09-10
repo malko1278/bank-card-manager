@@ -1,0 +1,39 @@
+databaseChangeLog:
+  - changeSet:
+      id: 003-insert-default-users
+      author: franck
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: admin
+              - column:
+                  name: password
+                  # bcrypt for 'password'
+                  value: $2a$12$zKM5f4tEuca4wfUw3jDMGOs4NBZh92HgnCGQRLHSsP/kExHiqQMRi
+              - column:
+                  name: role
+                  value: ADMIN
+              - column:
+                  name: is_blocked
+                  valueBoolean: false
+
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: username
+                  value: user
+              - column:
+                  name: password
+                  # bcrypt for 'password'
+                  value: $2a$12$zUprpnvB.KK1TVqDE10nHuxLRBtJ.Yk6LTYqJ1qcWQzGqeKUQBuTq
+              - column:
+                  name: role
+                  value: USER
+              - column:
+                  name: is_blocked
+                  valueBoolean: false
+

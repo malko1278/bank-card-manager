@@ -1,23 +1,16 @@
 version: '3.8'
 services:
   db:
-    image: postgres:15
-    container_name: bankdb
+    image: postgres:15-alpine
+    container_name: bank_db
     environment:
-      POSTGRES_DB: bankdb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: bank_cards
+      POSTGRES_USER: franck
+      POSTGRES_PASSWORD: Franck@1204
     ports:
-      - "5432:5432"
+      - "5435:5434"
     volumes:
-      - ./src/main/resources/db/migration:/docker-entrypoint-initdb.d
+      - postgres_data:/var/lib/postgresql/data
 
-  app:
-    build: .
-    container_name: bank-app
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
+volumes:
+  postgres_data:
