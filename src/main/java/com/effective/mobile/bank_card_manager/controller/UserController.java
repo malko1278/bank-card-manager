@@ -1,9 +1,7 @@
 package com.effective.mobile.bank_card_manager.controller;
 
 import com.effective.mobile.bank_card_manager.entity.Card;
-import com.effective.mobile.bank_card_manager.service.CardMapper;
 import com.effective.mobile.bank_card_manager.service.CardService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +16,12 @@ import java.math.BigDecimal;
 @PreAuthorize("hasRole('USER')")
 public class UserController {
 
-    @Autowired
-    private CardService cardService;
+    private final CardService cardService;
 
-    @Autowired
-    private CardMapper cardMapper;
+    // Constructor Injection
+    public UserController(CardService cardService) {
+        this.cardService = cardService;
+    }
 
     @GetMapping("/cards")
     public ResponseEntity<Page<Card>> getUserCards(Authentication authentication, Pageable pageable) {
@@ -48,6 +47,7 @@ public class UserController {
 
         Long userId = Long.valueOf(authentication.getName());
         cardService.transferBetweenCards(fromCardId, toCardId, amount, userId);
+        // Return 200 OK
         return ResponseEntity.ok().build();
     }
 

@@ -6,7 +6,6 @@ import com.effective.mobile.bank_card_manager.exception.CardNotFoundException;
 import com.effective.mobile.bank_card_manager.exception.InsufficientFundsException;
 import com.effective.mobile.bank_card_manager.exception.UnauthorizedAccessException;
 import com.effective.mobile.bank_card_manager.repository.CardRepository;
-import com.effective.mobile.bank_card_manager.repository.UserRepository;
 import com.effective.mobile.bank_card_manager.service.CardService;
 import com.effective.mobile.bank_card_manager.service.EncryptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +21,16 @@ import java.time.LocalDate;
 public class CardServiceImpl implements CardService {
 
     @Autowired
-    private CardRepository cardRepository;
+    private final CardRepository cardRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private final EncryptionService encryptionService;
 
-    @Autowired
-    private EncryptionService encryptionService;
+    // Constructor Injection
+    public CardServiceImpl(CardRepository cardRepository, EncryptionService encryptionService) {
+        this.cardRepository = cardRepository;
+        this.encryptionService = encryptionService;
+    }
 
     @Override
     public Card createCard(Card card) {
@@ -96,20 +98,15 @@ public class CardServiceImpl implements CardService {
                 .orElseThrow(() -> new CardNotFoundException("Исходная карта не найдена с ID: " + fromCardId));
         Card toCard = cardRepository.findById(toCardId)
                 .orElseThrow(() -> new CardNotFoundException("Карта назначения не найдена с ID: " + toCardId));
-        // Проверить, что обе карты принадлежат пользователю
-        if (!fromCard.getUser().getId().equals(userId)) {
-            throw new UnauthorizedAccessException("Исходная карта вам не принадлежит.");
+
+        // Validation checks
+        if (!fromCard.getUser().getId().equals(userId) || !toCard.getUser().getId().equals(userId)) {
+            throw new UnauthorizedAccessException("Перевод возможен только между вашими собственными картами.");
         }
-        if (!toCard.getUser().getId().equals(userId)) {
-            throw new UnauthorizedAccessException("Карта назначения вам не принадлежит.");
+        if (!CardStatus.ACTIVE.equals(fromCard.getStatus()) || !CardStatus.ACTIVE.equals(toCard.getStatus())) {
+            throw new IllegalStateException("Обе карты должны быть активны для выполнения перевода.");
         }
-        // Проверить, что обе карты активны
-        if (!CardStatus.ACTIVE.equals(fromCard.getStatus())) {
-            throw new IllegalStateException("Исходная карта должна быть активна для выполнения перевода.");
-        }
-        if (!CardStatus.ACTIVE.equals(toCard.getStatus())) {
-            throw new IllegalStateException("Карта назначения должна быть активна для получения перевода.");
-        }
+
         // Проверить, что сумма положительна
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Сумма перевода должна быть больше нуля.");
@@ -121,6 +118,7 @@ public class CardServiceImpl implements CardService {
         // Выполнить перевод
         fromCard.setBalance(fromCard.getBalance().subtract(amount));
         toCard.setBalance(toCard.getBalance().add(amount));
+
         // Сохранить изменения
         cardRepository.save(fromCard);
         cardRepository.save(toCard);

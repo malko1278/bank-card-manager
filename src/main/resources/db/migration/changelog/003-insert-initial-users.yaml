@@ -2,6 +2,10 @@ databaseChangeLog:
   - changeSet:
       id: 003-insert-default-users
       author: franck
+      preConditions:
+        - rowCount:
+            tableName: users
+            expectedRows: 0
       changes:
         - insert:
             tableName: users
@@ -36,4 +40,3 @@ databaseChangeLog:
               - column:
                   name: is_blocked
                   valueBoolean: false
-

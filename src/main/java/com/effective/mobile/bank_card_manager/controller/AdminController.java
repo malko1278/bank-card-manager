@@ -16,11 +16,14 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
 
-    @Autowired
-    private CardService cardService;
+    private final CardService cardService;
+    private final CardMapper cardMapper;
 
-    @Autowired
-    private CardMapper cardMapper;
+    // Constructor Injection
+    public AdminController(CardService cardService, CardMapper cardMapper) {
+        this.cardService = cardService;
+        this.cardMapper = cardMapper;
+    }
 
     @PostMapping("/cards")
     public ResponseEntity<CardDto> createCard(@RequestBody Card card) {
