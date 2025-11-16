@@ -17,14 +17,11 @@ import java.io.IOException;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
-
     @Autowired
     private final JwtTokenUtil jwtTokenUtil;
-
     @Autowired
     private final UserDetailsService userDetailsService;
 
-    // Constructor Injection
     public JwtRequestFilter(JwtTokenUtil jwtTokenUtil, UserDetailsService userDetailsService) {
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;

@@ -10,8 +10,6 @@ import java.util.List;
 
 @Repository
 public interface CardRepository extends JpaRepository<Card, Long> {
-
     Page<Card> findByUserId(Long userId, Pageable pageable);
-
     List<Card> findByUserId(Long userId);
 }

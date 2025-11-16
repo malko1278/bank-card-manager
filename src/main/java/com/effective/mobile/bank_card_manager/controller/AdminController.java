@@ -4,7 +4,6 @@ import com.effective.mobile.bank_card_manager.dto.CardDto;
 import com.effective.mobile.bank_card_manager.entity.Card;
 import com.effective.mobile.bank_card_manager.service.CardMapper;
 import com.effective.mobile.bank_card_manager.service.CardService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +14,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/admin")
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
-
     private final CardService cardService;
     private final CardMapper cardMapper;
 
-    // Constructor Injection
     public AdminController(CardService cardService, CardMapper cardMapper) {
         this.cardService = cardService;
         this.cardMapper = cardMapper;

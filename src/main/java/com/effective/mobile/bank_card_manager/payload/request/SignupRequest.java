@@ -5,12 +5,11 @@ import jakarta.validation.constraints.NotBlank;
 public class SignupRequest {
     @NotBlank
     private String username;
-
     @NotBlank
     private String password;
-
+    // "USER" или "ADMIN"
     @NotBlank
-    private String role; // "USER" или "ADMIN"
+    private String role;
 
     // Геттеры и сеттеры
     public String getUsername() {

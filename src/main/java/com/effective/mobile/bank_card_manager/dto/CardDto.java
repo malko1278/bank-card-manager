@@ -8,7 +8,8 @@ import java.time.LocalDate;
 public class CardDto {
 
     private Long id;
-    private String cardNumberMasked; // Формат: "**** **** **** 1234"
+    // Формат: "**** **** **** 1234"
+    private String cardNumberMasked;
     private String cardHolder;
     private LocalDate expiryDate;
     private CardStatus status;

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CardMapperImpl implements CardMapper {
-
     @Autowired
     private EncryptionService encryptionService;
 

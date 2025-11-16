@@ -16,10 +16,8 @@ import java.util.function.Function;
 
 @Service
 public class JwtTokenUtil {
-
     @Value("${jwt.secret}")
     private String SECRET_KEY;
-
     @Value("${jwt.expiration}")
     private long JWT_EXPIRATION;
 
@@ -37,7 +35,6 @@ public class JwtTokenUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        // Use Keys.hmacShaKeyFor with the raw secret key bytes
         SecretKey key = Keys.hmacShaKeyFor(java.util.Base64.getDecoder().decode(SECRET_KEY));
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
@@ -52,7 +49,6 @@ public class JwtTokenUtil {
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
-        // Use Keys.hmacShaKeyFor with the raw secret key bytes
         SecretKey key = Keys.hmacShaKeyFor(java.util.Base64.getDecoder().decode(SECRET_KEY));
         return Jwts.builder()
                 .setClaims(claims)

@@ -15,20 +15,15 @@ public class Card {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
     @Column(name = "card_number_encrypted", nullable = false)
     private String cardNumberEncrypted;
-
     @Column(name = "card_holder", nullable = false)
     private String cardHolder;
-
     @Column(name = "expiry_date", nullable = false)
     private LocalDate expiryDate;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private CardStatus status;
-
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal balance;
 

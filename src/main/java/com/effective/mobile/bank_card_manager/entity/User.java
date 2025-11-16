@@ -6,20 +6,16 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false, unique = true)
     private String username;
-
     @Column(nullable = false)
     private String password;
-
     @Column(nullable = false)
-    private String role; // "USER" ou "ADMIN"
-
+    // "USER" ou "ADMIN"
+    private String role;
     // Связь с картами
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Card> cards;

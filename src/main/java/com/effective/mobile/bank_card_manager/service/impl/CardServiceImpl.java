@@ -19,10 +19,8 @@ import java.time.LocalDate;
 
 @Service
 public class CardServiceImpl implements CardService {
-
     @Autowired
     private final CardRepository cardRepository;
-
     @Autowired
     private final EncryptionService encryptionService;
 
@@ -57,7 +55,6 @@ public class CardServiceImpl implements CardService {
         } else {
             card.setStatus(CardStatus.ACTIVE);
         }
-
         return cardRepository.save(card);
     }
 
@@ -99,14 +96,13 @@ public class CardServiceImpl implements CardService {
         Card toCard = cardRepository.findById(toCardId)
                 .orElseThrow(() -> new CardNotFoundException("Карта назначения не найдена с ID: " + toCardId));
 
-        // Validation checks
+        // Валидационные проверки
         if (!fromCard.getUser().getId().equals(userId) || !toCard.getUser().getId().equals(userId)) {
             throw new UnauthorizedAccessException("Перевод возможен только между вашими собственными картами.");
         }
         if (!CardStatus.ACTIVE.equals(fromCard.getStatus()) || !CardStatus.ACTIVE.equals(toCard.getStatus())) {
             throw new IllegalStateException("Обе карты должны быть активны для выполнения перевода.");
         }
-
         // Проверить, что сумма положительна
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("Сумма перевода должна быть больше нуля.");
@@ -118,7 +114,6 @@ public class CardServiceImpl implements CardService {
         // Выполнить перевод
         fromCard.setBalance(fromCard.getBalance().subtract(amount));
         toCard.setBalance(toCard.getBalance().add(amount));
-
         // Сохранить изменения
         cardRepository.save(fromCard);
         cardRepository.save(toCard);

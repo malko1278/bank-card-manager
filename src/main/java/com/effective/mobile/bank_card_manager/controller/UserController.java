@@ -15,10 +15,8 @@ import java.math.BigDecimal;
 @RequestMapping("/api/user")
 @PreAuthorize("hasRole('USER')")
 public class UserController {
-
     private final CardService cardService;
 
-    // Constructor Injection
     public UserController(CardService cardService) {
         this.cardService = cardService;
     }
@@ -47,7 +45,6 @@ public class UserController {
 
         Long userId = Long.valueOf(authentication.getName());
         cardService.transferBetweenCards(fromCardId, toCardId, amount, userId);
-        // Return 200 OK
         return ResponseEntity.ok().build();
     }
 
