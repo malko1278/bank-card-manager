@@ -34,6 +34,15 @@ spring:
     change-log: classpath:db/migration/master.xml
 
 # ===============================
+# SPRINGDOC (SWAGGER UI)
+# ===============================
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+# ===============================
 # APP CONFIGURATION
 # ===============================
 app:
@@ -47,3 +56,6 @@ jwt:
   secret: jcTMMkPiENzaEx0ldPZdoRX8/wDsYhZkAp23FDn+rg01W+eKpnhedXvH8ImsaPZ02YHDMz65GmG4vY4nyNuFaw==
   #       Q6jZI1+PF55+2v5HL5i/s/QtX6XVlYazdeJ8v+S1msL+s4mdIzo2EHRmuWjS7DvBOh1CpsPS0AWCiVhmdeWRxg==
   expiration: 86400000
+
+
+

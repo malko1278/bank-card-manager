@@ -7,7 +7,6 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "cards")
 public class Card {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

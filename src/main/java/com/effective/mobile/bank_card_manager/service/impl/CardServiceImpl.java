@@ -8,7 +8,6 @@ import com.effective.mobile.bank_card_manager.exception.UnauthorizedAccessExcept
 import com.effective.mobile.bank_card_manager.repository.CardRepository;
 import com.effective.mobile.bank_card_manager.service.CardService;
 import com.effective.mobile.bank_card_manager.service.EncryptionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,12 +18,9 @@ import java.time.LocalDate;
 
 @Service
 public class CardServiceImpl implements CardService {
-    @Autowired
     private final CardRepository cardRepository;
-    @Autowired
     private final EncryptionService encryptionService;
 
-    // Constructor Injection
     public CardServiceImpl(CardRepository cardRepository, EncryptionService encryptionService) {
         this.cardRepository = cardRepository;
         this.encryptionService = encryptionService;
@@ -87,7 +83,7 @@ public class CardServiceImpl implements CardService {
         return cardRepository.save(card);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public void transferBetweenCards(Long fromCardId, Long toCardId, BigDecimal amount, Long userId) {
         // Проверить, что обе карты существуют
@@ -114,7 +110,7 @@ public class CardServiceImpl implements CardService {
         // Выполнить перевод
         fromCard.setBalance(fromCard.getBalance().subtract(amount));
         toCard.setBalance(toCard.getBalance().add(amount));
-        // Сохранить изменения
+        // Сохранить изменения - Spring Data JPA обрабатывает транзакцию
         cardRepository.save(fromCard);
         cardRepository.save(toCard);
     }

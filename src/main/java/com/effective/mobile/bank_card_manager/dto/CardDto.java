@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class CardDto {
-
     private Long id;
     // Формат: "**** **** **** 1234"
     private String cardNumberMasked;

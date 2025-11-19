@@ -4,12 +4,10 @@ import com.effective.mobile.bank_card_manager.dto.CardDto;
 import com.effective.mobile.bank_card_manager.entity.Card;
 import com.effective.mobile.bank_card_manager.service.CardMapper;
 import com.effective.mobile.bank_card_manager.service.EncryptionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CardMapperImpl implements CardMapper {
-    @Autowired
     private EncryptionService encryptionService;
 
     @Override
